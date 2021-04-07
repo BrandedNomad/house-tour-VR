@@ -1,13 +1,46 @@
 import React from 'react';
 import {
+  asset,
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  VrButton
+  VrButton,
+  NativeModules,
+  Image,
+
 } from 'react-360';
 
 import {connect, changeRoom} from './store';
+
+const {AudioModule} = NativeModules;
+
+class AudioPanel extends React.Component {
+
+  playAmbientMusic(){
+    AudioModule.playEnvironmental({
+      source: asset('audio/ambient.wav'),
+      volume: 0.3,
+    });
+  }
+
+  stopAmbientMusic(){
+    AudioModule.stopEnvironmental();
+  }
+
+  render(){
+    return(
+        <View style={styles.audioPanel}>
+          <VrButton onClick={()=>{this.playAmbientMusic()}}>
+            <Image style={{height:50,width:50}} source={asset('audioOn.png')}/>
+          </VrButton>
+          <VrButton onClick={()=>{this.stopAmbientMusic()}}>
+            <Image style={{height:50,width:50}} source={asset('audioOff.png')}/>
+          </VrButton>
+        </View>
+    )
+  }
+}
 
 class HouseInfoPanel extends React.Component {
 
@@ -49,7 +82,7 @@ class Button extends React.Component {
               this.clickHandler(this.props.room)
             }}
         >
-          <Text style={{textAlign:'center'}}>{this.props.room}</Text>
+          <Text style={{textAlign:'center'}}>{this.props.room.split('_').join(' ')}</Text>
         </VrButton>
     )
   }
@@ -80,6 +113,7 @@ class ButtonInfoPanel extends React.Component {
         <View style={styles.buttonPanel}>
           <Text style={styles.header}>Room Selection</Text>
           {this.createRoomButtons(this.props.adjacentRooms)}
+          <AudioPanel/>
         </View>
       </View>
     );
@@ -93,7 +127,7 @@ const ConnectedHouseInfoPanel = connect(HouseInfoPanel);
 const styles = StyleSheet.create({
   infoPanel: {
     width: 400,
-    height: 550,
+    height: 400,
     opacity: 0.8,
     backgroundColor: 'rgb(255, 200, 50)',
     borderColor:'rgb(255,255,255)',
@@ -105,7 +139,7 @@ const styles = StyleSheet.create({
   },
   buttonPanel:{
     width:400,
-    height:550,
+    height:400,
     opacity:0.8,
     backgroundColor: 'rgb(255, 200, 50)',
     borderColor:'rgb(255,255,255)',
@@ -131,6 +165,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign:'center'
+  },
+  audioPanel:{
+    flexDirection:'row'
   }
 });
 

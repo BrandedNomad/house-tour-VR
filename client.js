@@ -12,13 +12,13 @@ function init(bundle, parent, options = {}) {
 
   const buttonsPanel = new Surface(
       400,
-      550,
+      400,
       Surface.SurfaceShape.Flat
   )
 
   const infoPanel = new Surface(
       400,
-      550,
+      400,
       Surface.SurfaceShape.Flat
   )
 
