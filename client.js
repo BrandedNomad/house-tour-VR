@@ -24,7 +24,7 @@ function init(bundle, parent, options = {}) {
 
   // Render your app content to the default cylinder surface
   r360.renderToSurface(
-    r360.createRoot('ConnectedButtons', { /* initial props */ }),
+    r360.createRoot('ConnectedButtonInfoPanel', { /* initial props */ }),
     buttonsPanel
     //r360.getDefaultSurface()
   );
